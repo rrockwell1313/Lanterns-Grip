@@ -2403,8 +2403,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 808408909}
-  - component: {fileID: 808408913}
   - component: {fileID: 808408911}
+  - component: {fileID: 808408913}
   - component: {fileID: 808408915}
   - component: {fileID: 808408912}
   - component: {fileID: 808408914}
@@ -2445,6 +2445,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 5
+  horizontalRotationSpeed: 150
+  verticalRotationSpeed: 100
 --- !u!114 &808408912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2536,7 +2538,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 504830778}
-  cinemachineVirtualCamera: {fileID: 0}
+  cinemachineVirtualCamera: {fileID: 1274192639}
+  playerController: {fileID: 808408911}
+  hRotation: 0
+  vRotation: 0
 --- !u!54 &808408914
 Rigidbody:
   m_ObjectHideFlags: 0

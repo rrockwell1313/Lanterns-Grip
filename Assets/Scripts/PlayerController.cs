@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 movementInput;
     private Vector2 rotationInput;
     public float movementSpeed = 0.0f;
+    public float horizontalRotationSpeed = 150.0f;
+    public float verticalRotationSpeed = 100f;
 
     public void OnMovement(InputAction.CallbackContext context)
     {
