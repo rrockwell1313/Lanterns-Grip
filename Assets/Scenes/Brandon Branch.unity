@@ -509,6 +509,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Dwarf_Floor_12 (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 4662979199574102, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 50.45632
@@ -627,6 +631,10 @@ PrefabInstance:
     - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_Name
       value: SM_Env_Dwarf_Floor_12 (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 4662979199574102, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -799,6 +807,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Dwarf_Floor_12 (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 4662979199574102, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 41.45632
@@ -855,6 +867,10 @@ PrefabInstance:
     - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_Name
       value: SM_Env_Dwarf_Floor_12 (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 4662979199574102, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -974,6 +990,10 @@ PrefabInstance:
     - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_Name
       value: SM_Env_Dwarf_Floor_12 (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 4662979199574102, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1626,7 +1646,7 @@ Transform:
   m_GameObject: {fileID: 504830773}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.4499999, z: -8.4}
+  m_LocalPosition: {x: 1.062, y: 1.6999999, z: -11.46}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -2385,10 +2405,13 @@ GameObject:
   - component: {fileID: 808408909}
   - component: {fileID: 808408913}
   - component: {fileID: 808408911}
+  - component: {fileID: 808408915}
   - component: {fileID: 808408912}
+  - component: {fileID: 808408914}
+  - component: {fileID: 808408916}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2402,7 +2425,7 @@ Transform:
   m_GameObject: {fileID: 808408908}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: -7.65}
+  m_LocalPosition: {x: 1.062, y: 1.75, z: -10.71}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2421,7 +2444,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d586c59ad9bb9ab4d8ea19ad0392586c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 100
   movementSpeed: 5
 --- !u!114 &808408912
 MonoBehaviour:
@@ -2480,6 +2502,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 3b625fcd-356d-44d0-bae2-aff8db0130bc
     m_ActionName: PlayerMovement/Rotation[/DualSenseGamepadHID/rightStick,/XInputControllerWindows/rightStick]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 808408915}
+        m_TargetAssemblyTypeName: JumpOnButtonPress, Assembly-CSharp
+        m_MethodName: OnJump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 70386f33-0ea2-4ead-8480-4b88766cdc8d
+    m_ActionName: PlayerMovement/Jump[/DualSenseGamepadHID/buttonSouth]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerMovement
@@ -2498,6 +2536,71 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 504830778}
+  cinemachineVirtualCamera: {fileID: 0}
+--- !u!54 &808408914
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808408908}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 122
+  m_CollisionDetection: 0
+--- !u!114 &808408915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808408908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 225cfd511aaa82f4a9d1146cc1d85378, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 808408914}
+  jumpForce: 3
+--- !u!136 &808408916
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808408908}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1.75
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.5, z: 0}
 --- !u!4 &839450817 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 464186, guid: 8dd1a7e8541c3f740a6cef5d44c0e172, type: 3}
@@ -2519,6 +2622,10 @@ PrefabInstance:
     - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_Name
       value: SM_Env_Dwarf_Floor_12 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 4662979199574102, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2882,6 +2989,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Dwarf_Floor_12 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 4662979199574102, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 50.45632
@@ -2958,6 +3069,10 @@ PrefabInstance:
     - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_Name
       value: SM_Env_Dwarf_Floor_12 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 4662979199574102, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3312,7 +3427,7 @@ Transform:
   m_GameObject: {fileID: 1274192638}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.4499999, z: -8.4}
+  m_LocalPosition: {x: 1.062, y: 1.6999999, z: -11.46}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3506,6 +3621,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Dwarf_Floor_12 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 4662979199574102, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 41.45632
@@ -3624,6 +3743,10 @@ PrefabInstance:
     - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_Name
       value: SM_Env_Dwarf_Floor_12 (15)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 4662979199574102, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4333,6 +4456,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Dwarf_Floor_12 (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 4662979199574102, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 41.45632
@@ -4740,6 +4867,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Dwarf_Floor_12 (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 4662979199574102, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 45.95632
@@ -4911,6 +5042,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Dwarf_Floor_12 (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 4662979199574102, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 45.95632
@@ -4968,6 +5103,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Env_Dwarf_Floor_12
       objectReference: {fileID: 0}
+    - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
+      propertyPath: m_TagString
+      value: Ground
+      objectReference: {fileID: 0}
     - target: {fileID: 4662979199574102, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 36.70632
@@ -5024,6 +5163,10 @@ PrefabInstance:
     - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_Name
       value: SM_Env_Dwarf_Floor_12 (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 4662979199574102, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5257,6 +5400,10 @@ PrefabInstance:
     - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_Name
       value: SM_Env_Dwarf_Floor_12 (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1583112026022260, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     - target: {fileID: 4662979199574102, guid: c6479d4b086929a458259148ddd6e63e, type: 3}
       propertyPath: m_LocalPosition.x
