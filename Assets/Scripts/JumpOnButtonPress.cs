@@ -19,7 +19,6 @@ public class JumpOnButtonPress : MonoBehaviour
         {
             jumpPressed = true;
             Jump();
-            Debug.Log("Touching Ground?: " + touchingGround);
         }
         else if (context.canceled)
         {
@@ -58,7 +57,6 @@ public class JumpOnButtonPress : MonoBehaviour
         {         
             playerJumping = true;
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            Debug.Log("Jump mah boy");
         }
 
 

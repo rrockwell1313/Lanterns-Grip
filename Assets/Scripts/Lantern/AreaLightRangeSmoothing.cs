@@ -38,7 +38,7 @@ public class AreaLightRangeSmoothing : MonoBehaviour
     {
         if (volume.profile.HasSettings<Bloom>())
         {
-            Debug.Log("bloom exists");
+            //Debug.Log("bloom exists");
             bloom = volume.profile.GetSetting<Bloom>();
         }
         // Set initial range
