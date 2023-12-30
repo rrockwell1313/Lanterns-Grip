@@ -10,6 +10,8 @@ public class PlayerRotatesTowardCameraFace : MonoBehaviour
     public PlayerController playerController;
     [HideInInspector] public float hRotation, vRotation;
     float oldH, oldV;
+    float rotationSpeed = 85f;
+    Quaternion newRotation;
 
     private void Start()
     {
@@ -30,17 +32,18 @@ public class PlayerRotatesTowardCameraFace : MonoBehaviour
 
     }
 
-    void Update()
+    void LateUpdate()
     {
         UpdateRotationSpeed();
 
-        // Get the camera's rotation
-        Quaternion cameraRotation = mainCamera.transform.rotation;
+        // Get the target rotation which is the camera's Y rotation
+        Quaternion targetRotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);
 
-        // Create a new rotation that matches the camera's Y rotation
-        Quaternion newRotation = Quaternion.Euler(transform.eulerAngles.x, cameraRotation.eulerAngles.y, transform.eulerAngles.z);
+        // Smoothly interpolate between the current rotation and the target rotation
+        // 'rotationSpeed' is a public float that you can adjust in the inspector to control the speed of rotation
+        newRotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-        // Set the player's rotation
+        // Apply the new rotation
         transform.rotation = newRotation;
     }
 }
