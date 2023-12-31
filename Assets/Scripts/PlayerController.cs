@@ -13,7 +13,12 @@ public class PlayerController : MonoBehaviour
     public float horizontalRotationSpeed = 150.0f;
     public float verticalRotationSpeed = 100f;
     public float walkSpeed, sprintSpeed;
-    public bool sprintPressed;
+    public bool sprintPressed, isMoving, isSprinting;
+
+    void Update()
+    {
+        MovePlayer();
+    }
 
     public void OnMovement(InputAction.CallbackContext context)
     {
@@ -37,26 +42,35 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (movementInput != Vector2.zero) 
-        {
-            MovePlayer();
-        }
-    }
+
 
     public void MovePlayer()
     {
         //Debug.Log("Movement input: " + movementInput);
+        if (movementInput != Vector2.zero)
+        {
+            isMoving = true;
+        }
+        else
+        {
+            isMoving = false;
+            isSprinting = false;
+        }
+        
+        if (isMoving)
+        {
+            if (sprintPressed)
+            {
+                moveSpeed = sprintSpeed;
+                isSprinting = true;
+            }
+            else if (!sprintPressed)
+            {
+                moveSpeed = walkSpeed;
+                isSprinting = false;
+            }
+            transform.Translate(new Vector3(movementInput.x, 0f, movementInput.y) * moveSpeed * Time.deltaTime);
+        }
 
-        if (sprintPressed)
-        {
-            moveSpeed = sprintSpeed;
-        }
-        else if (!sprintPressed)
-        {
-            moveSpeed = walkSpeed;
-        }
-        transform.Translate(new Vector3(movementInput.x, 0f , movementInput.y) * moveSpeed * Time.deltaTime);
     }
 }

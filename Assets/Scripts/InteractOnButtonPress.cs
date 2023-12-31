@@ -13,7 +13,7 @@ public class InteractOnButtonPress : MonoBehaviour
     GameObject interactable;    // Stores the interactable object
     public Camera mainCamera;   // Reference to the main camera for raycasting
     public float rayLength = 100f; // Length of the raycast
-    public string targetTag = "Interactable"; // Tag that identifies interactable objects
+    public string targetTag = "Interactable"; // Tag that identifies interactable objects, may be easier to see if we can check a component for a specific script with an interactable bool
 
 
     public Image reticle;       // Reticle image for the UI
@@ -75,25 +75,25 @@ public class InteractOnButtonPress : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    // Called when the player collides with an interactable object. Checking if object is interactable. More definition later?
-    //Tags may become more defined in future, instead object pooling for script components possibly. Not sure yet.
-    {
-        if (other.gameObject.CompareTag("Interactable"))
-        {
-            interactable = other.gameObject;
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //// Called when the player collides with an interactable object. Checking if object is interactable. More definition later?
+    ////Tags may become more defined in future, instead object pooling for script components possibly. Not sure yet.
+    //{
+    //    if (other.gameObject.CompareTag("Interactable"))
+    //    {
+    //        interactable = other.gameObject;
+    //    }
+    //}
 
-    private void OnTriggerExit(Collider other)
-    // Called when the player exits the collision with an interactable object
-    //Required to note the return of the previous reticle. May not be needed, on enter only happens when inters, can just say else
-    {
-        if (other.gameObject.CompareTag("Interactable"))
-        {
-            interactable = null;
-        }
-    }
+    //private void OnTriggerExit(Collider other)
+    //// Called when the player exits the collision with an interactable object
+    ////Required to note the return of the previous reticle. May not be needed, on enter only happens when inters, can just say else
+    //{
+    //    if (other.gameObject.CompareTag("Interactable"))
+    //    {
+    //        interactable = null;
+    //    }
+    //}
     void InteractButtonAnimate()
     {
         if (onOffTime < interactImageOnOffTime)
@@ -117,7 +117,6 @@ public class InteractOnButtonPress : MonoBehaviour
     void InteractButtonFadeIn()
     {
         //the image should fade in and then in the animate method it should switch between the two images
-        //interactButtonOnImage.color = new Color(interactButtonOnImage.color.r, interactButtonOnImage.color.g, interactButtonOnImage.color.b, (interactButtonEndAlpha + currentAlpha) / 255);
         interactButtonOffImage.color = new Color(interactButtonOnImage.color.r, interactButtonOnImage.color.g, interactButtonOnImage.color.b, (interactButtonEndAlpha + currentAlpha) / 255);
         interactButtonOnImage.color = new Color(interactButtonOnImage.color.r, interactButtonOnImage.color.g, interactButtonOnImage.color.b, (interactButtonEndAlpha + currentAlpha) / 255);
 
@@ -148,15 +147,15 @@ public class InteractOnButtonPress : MonoBehaviour
 
     void ReticleRayCast()
     {
-        Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
-        float startAlpha = reticleStartAlpha / 255f;
-        float endAlpha = reticleEndAlpha / 255f;
+        Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f)); //create a Ray named ray and cast it forward from the center of the camera
+        float startAlpha = reticleStartAlpha / 255f; //initial alpha of the reticle
+        float endAlpha = reticleEndAlpha / 255f; //end alpha of the reticle
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, rayLength))
         {
-            Debug.DrawLine(ray.origin, hit.point, Color.green, 5f);
-            Debug.Log("Hit: " + hit.collider.name);
+            //Debug.DrawLine(ray.origin, hit.point, Color.green, 5f);
+            //Debug.Log("Hit: " + hit.collider.name);
 
 
             if (hit.collider.CompareTag(targetTag))
