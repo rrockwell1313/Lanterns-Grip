@@ -17,20 +17,33 @@ public class PlayerController : MonoBehaviour
     public bool isMoving, isSprinting; //accessible for other states?
     
     private InteractOnButtonPress interactScript;
+    private PlayerMovement movementScript;
+    private LanternController lanternScript;
+
 
     private void Start()
     {
         interactScript = GetComponent<InteractOnButtonPress>();
+        movementScript = GetComponent<PlayerMovement>();
+        lanternScript  = GetComponent<LanternController>();
     }
 
     void Update()
     {
-        MovePlayer();
+        
     }
 
     public void OnMovement(InputAction.CallbackContext context)
     {
-        movementInput = context.ReadValue<Vector2>();     
+        movementInput = context.ReadValue<Vector2>();
+        if (movementInput  != Vector2.zero)
+        {
+            movementScript.MovePlayer();
+        }
+        else
+        {
+            return;
+        }
     }
 
     public void OnRotation(InputAction.CallbackContext context)
@@ -42,11 +55,11 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started)
         {
-            sprintPressed = true;
+            movementScript.EnableSprint();
         }
         else if (context.canceled)
         {
-            sprintPressed = false;
+            movementScript.DisableSprint();
         }
     }
     public void OnCrouch(InputAction.CallbackContext context)
@@ -66,42 +79,24 @@ public class PlayerController : MonoBehaviour
         }
  
     }
-
-
-    public void MovePlayer()
+    public void OnLanternIncrease(InputAction.CallbackContext context)
+    // Called when the interact button is pressed
     {
-        if (movementInput != Vector2.zero)
+        if (context.started)
         {
-            isMoving = true;
-        }
-        else
-        {
-            isMoving = false;
-            isSprinting = false;
-        }
-        
-        if (isMoving)
-        {
-            if (crouchPressed)
-            {
-                moveSpeed = crouchSpeed;
-            }
-            else if (!crouchPressed)
-            {
-                if (sprintPressed)
-                {
-                    moveSpeed = sprintSpeed;
-                    isSprinting = true;
-                }
-                else if (!sprintPressed)
-                {
-                    moveSpeed = walkSpeed;
-                    isSprinting = false;
-                }
-            }
-            
-            transform.Translate(new Vector3(movementInput.x, 0f, movementInput.y) * moveSpeed * Time.deltaTime); //actual code that does the movement
+            lanternScript.AdjustLantern();
         }
 
     }
+    public void OnLanternDecrease(InputAction.CallbackContext context)
+    // Called when the interact button is pressed
+    {
+        if (context.started)
+        {
+            lanternScript.AdjustLantern();
+        }
+
+    }
+
+
 }

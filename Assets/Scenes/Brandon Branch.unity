@@ -7237,8 +7237,6 @@ MonoBehaviour:
   walkSpeed: 2
   sprintSpeed: 4
   crouchSpeed: 1
-  sprintPressed: 0
-  crouchPressed: 0
   isMoving: 0
   isSprinting: 0
 --- !u!114 &808408912
@@ -7328,8 +7326,8 @@ MonoBehaviour:
     m_ActionName: PlayerMovement/Jump[/DualSenseGamepadHID/buttonSouth]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 808408917}
-        m_TargetAssemblyTypeName: InteractOnButtonPress, Assembly-CSharp
+      - m_Target: {fileID: 808408911}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
         m_MethodName: OnInteract
         m_Mode: 0
         m_Arguments:
@@ -7528,19 +7526,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 887f4825ddf2d1646ab182ae5776681d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInteracting: 0
   mainCamera: {fileID: 504830778}
   rayLength: 2
-  targetTag: Interactable
-  reticle: {fileID: 1042283731}
-  reticleStartAlpha: 255
-  reticleEndAlpha: 64
-  interactButtonOnImage: {fileID: 752048337}
-  interactButtonOffImage: {fileID: 658001316}
-  interactButtonStartAlpha: 100
-  interactButtonEndAlpha: 0
-  interactImageFadeInTime: 0.5
-  interactImageOnOffTime: 150
 --- !u!114 &808408918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32188,11 +32175,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f0550f8c1112a641a48e105280b38ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level1: {fileID: 1351243711}
-  level2: {fileID: 511021553}
-  level3: {fileID: 821845531}
-  light1: {fileID: 856929947}
-  interactOnButtonPress: {fileID: 808408917}
 --- !u!1001 &1443328862
 PrefabInstance:
   m_ObjectHideFlags: 0

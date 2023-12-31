@@ -21,31 +21,6 @@ public class LanternController : MonoBehaviour
 
     bool increaseLanternPressed, decreaseLanternPressed;
 
-    public void OnIncreaseLantern(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            Debug.Log("OnIncreaseLantern");
-            increaseLanternPressed = true;
-        }
-        else if (context.canceled)
-        {
-            increaseLanternPressed = false;
-        }
-    }
-    public void OnDecreaseLantern(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            Debug.Log("OnDecreaseLantern");
-
-            decreaseLanternPressed = true;
-        }
-        else if (context.canceled)
-        {
-            decreaseLanternPressed = false;
-        }
-    }
     // Start is called before the first frame update
     void Start()
     {   
@@ -69,10 +44,7 @@ public class LanternController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (increaseLanternPressed || decreaseLanternPressed)
-        {
-            AdjustLantern();
-        }
+
     }
 
     public void AdjustLantern()
