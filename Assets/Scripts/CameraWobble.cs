@@ -22,8 +22,8 @@ public class CameraWobble : MonoBehaviour
 
         if (inputMagnitude > 0.01f) // Threshold to check for movement
         {
-            float currentOscillationSpeed = controller.sprintPressed ? sprintOscillationSpeed : oscillationSpeed;
-            float maxDutch = controller.sprintPressed ? sprintDutchMax : dutchMax;
+            float currentOscillationSpeed = controller.isSprinting ? sprintOscillationSpeed : oscillationSpeed;
+            float maxDutch = controller.isSprinting ? sprintDutchMax : dutchMax;
 
             // Scale the oscillation speed based on the joystick input magnitude
             currentOscillationSpeed *= inputMagnitude;
