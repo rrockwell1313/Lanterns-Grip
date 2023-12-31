@@ -17,6 +17,20 @@ public class PlayerRotatesTowardCameraFace : MonoBehaviour
     {
         UpdateRotationSpeed();
     }
+    void LateUpdate()
+    {
+        UpdateRotationSpeed();
+
+        // Get the target rotation which is the camera's Y rotation
+        Quaternion targetRotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);
+
+        // Smoothly interpolate between the current rotation and the target rotation
+        // 'rotationSpeed' is a public float that you can adjust in the inspector to control the speed of rotation
+        newRotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+        // Apply the new rotation
+        transform.rotation = newRotation;
+    }
     void UpdateRotationSpeed()
     {
 
@@ -32,18 +46,5 @@ public class PlayerRotatesTowardCameraFace : MonoBehaviour
 
     }
 
-    void LateUpdate()
-    {
-        UpdateRotationSpeed();
 
-        // Get the target rotation which is the camera's Y rotation
-        Quaternion targetRotation = Quaternion.Euler(0f, mainCamera.transform.eulerAngles.y, 0f);
-
-        // Smoothly interpolate between the current rotation and the target rotation
-        // 'rotationSpeed' is a public float that you can adjust in the inspector to control the speed of rotation
-        newRotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-
-        // Apply the new rotation
-        transform.rotation = newRotation;
-    }
 }
