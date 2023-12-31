@@ -22,6 +22,7 @@ public class LanternController : MonoBehaviour
     private void Start()
     {
         particleSystem = GetComponent<ParticleSystem>();
+
         if (particleSystem == null) //using this can allow us to attach things to the objects that use them, eventually, though, if you have more than one of something, it could be an issue
         {
             particleSystem = GetComponentInChildren<ParticleSystem>();
