@@ -6709,8 +6709,8 @@ MonoBehaviour:
     Value: 0
     m_SpeedMode: 0
     m_MaxSpeed: 150
-    m_AccelTime: 0
-    m_DecelTime: 0
+    m_AccelTime: 0.15
+    m_DecelTime: 0.1
     m_InputAxisName: Mouse X
     m_InputAxisValue: 0
     m_InvertInput: 0
@@ -7187,6 +7187,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 808408909}
+  - component: {fileID: 808408918}
   - component: {fileID: 808408911}
   - component: {fileID: 808408913}
   - component: {fileID: 808408917}
@@ -7229,9 +7230,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d586c59ad9bb9ab4d8ea19ad0392586c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 5
-  horizontalRotationSpeed: 150
+  movementInput: {x: 0, y: 0}
+  horizontalRotationSpeed: 200
   verticalRotationSpeed: 100
+  walkSpeed: 2
+  sprintSpeed: 4
+  sprintPressed: 0
 --- !u!114 &808408912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7261,6 +7265,18 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 808408911}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnMovement
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 808408918}
+        m_TargetAssemblyTypeName: CameraWobble, Assembly-CSharp
         m_MethodName: OnMovement
         m_Mode: 0
         m_Arguments:
@@ -7377,6 +7393,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: bf4d62ff-8a60-46e2-95dd-010245ac0a95
     m_ActionName: PlayerMovement/DecreaseLantern[/XInputControllerWindows/dpad/down,/DualSenseGamepadHID/dpad/down]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 808408911}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnSprint
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 1cd84d3f-2a54-4a95-bf93-127621e4788c
+    m_ActionName: PlayerMovement/Sprint[/XInputControllerWindows/rightShoulder,/DualSenseGamepadHID/rightShoulder]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: PlayerMovement
@@ -7488,6 +7520,24 @@ MonoBehaviour:
   interactButtonEndAlpha: 0
   interactImageFadeInTime: 0.5
   interactImageOnOffTime: 150
+--- !u!114 &808408918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808408908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19dcd70d4f6fc374aa07c918cfe094fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 808408911}
+  cinemachineVirtualCamera: {fileID: 1274192639}
+  dutchMax: 0.75
+  sprintDutchMax: 1.25
+  oscillationSpeed: 5
+  sprintOscillationSpeed: 8
 --- !u!1 &821845531
 GameObject:
   m_ObjectHideFlags: 0
