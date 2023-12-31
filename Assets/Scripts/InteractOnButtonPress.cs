@@ -6,28 +6,64 @@ using UnityEngine.UI;
 
 public class InteractOnButtonPress : MonoBehaviour
 {
-    bool interactPressed;
-    bool canInteract;
-    public bool playerInteracting;
-    GameObject interactable;
-    public Camera mainCamera;
-    public float rayLength = 100f;
-    public string targetTag = "Interactable";
-    public Image reticle;
-    public float reticleStartAlpha;
-    public float reticleEndAlpha;
-    public Image interactButtonOnImage;
-    public Image interactButtonOffImage;
-    public float interactButtonStartAlpha;
-    public float interactButtonEndAlpha;
-    public float interactImageFadeInTime;
-    public float interactImageOnOffTime;
-    float onOffTime;
-    float currentAlpha;
-    bool imageFading;
+    bool interactPressed;       // Indicates if the interaction button is currently pressed
+    bool canInteract;           // Determines if the player can interact with something
+    public bool playerInteracting; // Public flag to show if the player is currently interacting
+
+    GameObject interactable;    // Stores the interactable object
+    public Camera mainCamera;   // Reference to the main camera for raycasting
+    public float rayLength = 100f; // Length of the raycast
+    public string targetTag = "Interactable"; // Tag that identifies interactable objects
 
 
+    public Image reticle;       // Reticle image for the UI
+    public float reticleStartAlpha; // Start alpha value for the reticle
+    public float reticleEndAlpha;   // End alpha value for the reticle
+    public Image interactButtonOnImage; // Image shown when interaction is possible
+    public Image interactButtonOffImage; // Image shown when interaction is not possible
+    public float interactButtonStartAlpha; // Start alpha for the interact button image
+    public float interactButtonEndAlpha;   // End alpha for the interact button image
+    public float interactImageFadeInTime;  // Time it takes for the interact image to fade in
+    public float interactImageOnOffTime;   // Time for toggling the interact on/off image
+    float onOffTime;              // Timer for interact image on/off toggle
+    float currentAlpha;           // Current alpha value for the fading effect
+    bool imageFading;             // Flag to determine if the image is currently fading
+
+    
+    private void Update()
+        //consolidate update function to simply be a list of methods. Keep ifs in their methods, update being cluttered is bad practice and should only
+        //be a place where you check the hierachy of processing each method where possible.
+    {
+        ReticleRayCast();
+        ManageInteraction();//Moved if statements to this method.
+
+    }
+
+    private void ManageInteraction()
+    {
+        if (canInteract)
+        {
+            if (!imageFading)
+            {
+                InteractButtonAnimate();
+            }
+        }
+        if (interactPressed && canInteract)
+        {
+            Interact();
+        }
+
+        if (imageFading && canInteract)
+        {
+            InteractButtonFadeIn();
+        }
+        else if (imageFading & !canInteract)
+        {
+            InteractButtonFadeOut();
+        }
+    }
     public void OnInteract(InputAction.CallbackContext context)
+    // Called when the interact button is pressed
     {
         if (context.started)
         {
@@ -40,43 +76,22 @@ public class InteractOnButtonPress : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
+    // Called when the player collides with an interactable object. Checking if object is interactable. More definition later?
+    //Tags may become more defined in future, instead object pooling for script components possibly. Not sure yet.
     {
-        if (other.gameObject.CompareTag("Interactable")) 
+        if (other.gameObject.CompareTag("Interactable"))
         {
             interactable = other.gameObject;
         }
     }
 
     private void OnTriggerExit(Collider other)
+    // Called when the player exits the collision with an interactable object
+    //Required to note the return of the previous reticle. May not be needed, on enter only happens when inters, can just say else
     {
         if (other.gameObject.CompareTag("Interactable"))
         {
             interactable = null;
-        }
-    }
-
-    private void Update()
-    {
-        ReticleRayCast();
-        if (canInteract)
-        {
-            if (!imageFading)
-            {
-                InteractButtonAnimate();
-            }
-        }
-        if (interactPressed && canInteract) 
-        {
-            Interact();
-        }
-
-        if (imageFading && canInteract)
-        {
-            InteractButtonFadeIn();
-        }
-        else if (imageFading &! canInteract)
-        {
-            InteractButtonFadeOut();
         }
     }
     void InteractButtonAnimate()
@@ -140,6 +155,10 @@ public class InteractOnButtonPress : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, rayLength))
         {
+            Debug.DrawLine(ray.origin, hit.point, Color.green, 5f);
+            Debug.Log("Hit: " + hit.collider.name);
+
+
             if (hit.collider.CompareTag(targetTag))
             {
                 reticle.color = new Color(reticle.color.r, reticle.color.g, reticle.color.b, startAlpha);
@@ -156,6 +175,7 @@ public class InteractOnButtonPress : MonoBehaviour
             }
             else
             {
+                Debug.DrawLine(ray.origin, ray.origin + ray.direction * rayLength, Color.red);
                 reticle.color = new Color(reticle.color.r, reticle.color.g, reticle.color.b, endAlpha);
             }
         }
