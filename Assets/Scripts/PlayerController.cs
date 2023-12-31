@@ -12,8 +12,9 @@ public class PlayerController : MonoBehaviour
     private float moveSpeed = 0.0f;
     public float horizontalRotationSpeed = 150.0f;
     public float verticalRotationSpeed = 100f;
-    public float walkSpeed, sprintSpeed;
-    public bool sprintPressed, isMoving, isSprinting;
+    public float walkSpeed, sprintSpeed, crouchSpeed;
+    bool sprintPressed, crouchPressed;
+    public bool isMoving, isSprinting; //accessible for other states?
 
     void Update()
     {
@@ -41,12 +42,19 @@ public class PlayerController : MonoBehaviour
             sprintPressed = false;
         }
     }
+    public void OnCrouch(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            crouchPressed = !crouchPressed; //toggle crouch instead of hold for right now
+        }
+
+    }
 
 
 
     public void MovePlayer()
     {
-        //Debug.Log("Movement input: " + movementInput);
         if (movementInput != Vector2.zero)
         {
             isMoving = true;
@@ -59,17 +67,25 @@ public class PlayerController : MonoBehaviour
         
         if (isMoving)
         {
-            if (sprintPressed)
+            if (crouchPressed)
             {
-                moveSpeed = sprintSpeed;
-                isSprinting = true;
+                moveSpeed = crouchSpeed;
             }
-            else if (!sprintPressed)
+            else if (!crouchPressed)
             {
-                moveSpeed = walkSpeed;
-                isSprinting = false;
+                if (sprintPressed)
+                {
+                    moveSpeed = sprintSpeed;
+                    isSprinting = true;
+                }
+                else if (!sprintPressed)
+                {
+                    moveSpeed = walkSpeed;
+                    isSprinting = false;
+                }
             }
-            transform.Translate(new Vector3(movementInput.x, 0f, movementInput.y) * moveSpeed * Time.deltaTime);
+            
+            transform.Translate(new Vector3(movementInput.x, 0f, movementInput.y) * moveSpeed * Time.deltaTime); //actual code that does the movement
         }
 
     }
