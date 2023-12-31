@@ -9,13 +9,9 @@ public class PlayerController : MonoBehaviour
 
     [HideInInspector] public Vector2 movementInput;
     private Vector2 rotationInput;
-    private float moveSpeed = 0.0f;
     public float horizontalRotationSpeed = 150.0f;
     public float verticalRotationSpeed = 100f;
-    public float walkSpeed, sprintSpeed, crouchSpeed;
-    bool sprintPressed, crouchPressed;
-    public bool isMoving, isSprinting; //accessible for other states?
-    
+    bool sprintPressed, crouchPressed; 
     private InteractOnButtonPress interactScript;
     private PlayerMovement movementScript;
     private LanternController lanternScript;
@@ -30,20 +26,13 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     public void OnMovement(InputAction.CallbackContext context)
     {
         movementInput = context.ReadValue<Vector2>();
-        if (movementInput  != Vector2.zero)
-        {
-            movementScript.MovePlayer();
-        }
-        else
-        {
-            return;
-        }
+        movementScript.EnableMovement();
     }
 
     public void OnRotation(InputAction.CallbackContext context)
@@ -67,6 +56,14 @@ public class PlayerController : MonoBehaviour
         if (context.started)
         {
             crouchPressed = !crouchPressed; //toggle crouch instead of hold for right now
+            if (crouchPressed)
+            {
+                movementScript.EnableCrouch();
+            }
+            else if (!crouchPressed)
+            {
+                movementScript.DisableCrouch();
+            }
         }
 
     }
@@ -84,18 +81,24 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started)
         {
-            lanternScript.AdjustLantern();
+            lanternScript.increaseLantern = true;
         }
-
+        else if (context.canceled)
+        {
+            lanternScript.increaseLantern = false;
+        }
     }
     public void OnLanternDecrease(InputAction.CallbackContext context)
     // Called when the interact button is pressed
     {
         if (context.started)
         {
-            lanternScript.AdjustLantern();
+            lanternScript.decreaseLantern = true;
         }
-
+        else if (context.canceled)
+        {
+            lanternScript.decreaseLantern = false;
+        }
     }
 
 

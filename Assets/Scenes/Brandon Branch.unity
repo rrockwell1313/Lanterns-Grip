@@ -7188,14 +7188,16 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 808408909}
+  - component: {fileID: 808408912}
   - component: {fileID: 808408918}
   - component: {fileID: 808408911}
+  - component: {fileID: 808408922}
   - component: {fileID: 808408913}
   - component: {fileID: 808408917}
   - component: {fileID: 808408915}
-  - component: {fileID: 808408912}
   - component: {fileID: 808408914}
   - component: {fileID: 808408916}
+  - component: {fileID: 808408919}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -7234,11 +7236,6 @@ MonoBehaviour:
   movementInput: {x: 0, y: 0}
   horizontalRotationSpeed: 200
   verticalRotationSpeed: 100
-  walkSpeed: 2
-  sprintSpeed: 4
-  crouchSpeed: 1
-  isMoving: 0
-  isSprinting: 0
 --- !u!114 &808408912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7268,18 +7265,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 808408911}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnMovement
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 808408918}
-        m_TargetAssemblyTypeName: CameraWobble, Assembly-CSharp
         m_MethodName: OnMovement
         m_Mode: 0
         m_Arguments:
@@ -7342,21 +7327,9 @@ MonoBehaviour:
     m_ActionName: PlayerMovement/Interact[/DualSenseGamepadHID/buttonNorth]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 908241317}
-        m_TargetAssemblyTypeName: EmberController, Assembly-CSharp
-        m_MethodName: OnIncreaseLantern
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2101978402}
-        m_TargetAssemblyTypeName: LanternController, Assembly-CSharp
-        m_MethodName: OnIncreaseLantern
+      - m_Target: {fileID: 808408911}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnLanternIncrease
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7370,21 +7343,9 @@ MonoBehaviour:
     m_ActionName: PlayerMovement/IncreaseLantern[/XInputControllerWindows/dpad/up,/DualSenseGamepadHID/dpad/up]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 908241317}
-        m_TargetAssemblyTypeName: EmberController, Assembly-CSharp
-        m_MethodName: OnDecreaseLantern
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2101978402}
-        m_TargetAssemblyTypeName: LanternController, Assembly-CSharp
-        m_MethodName: OnDecreaseLantern
+      - m_Target: {fileID: 808408911}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnLanternDecrease
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7535,7 +7496,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 808408908}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 19dcd70d4f6fc374aa07c918cfe094fe, type: 3}
   m_Name: 
@@ -7546,6 +7507,44 @@ MonoBehaviour:
   sprintDutchMax: 1.25
   oscillationSpeed: 5
   sprintOscillationSpeed: 8
+--- !u!114 &808408919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808408908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e321b02a15ef7749814735274456d69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  adjustmentInterval: 0.03
+  maxFlameParticleSize: 0.2
+  minFlameParticleSize: 0.01
+  flameParticleSizeDifferential: 0.02
+  maxLightRadius: 9
+  minLightRadius: 2
+  currentLightRadius: 0
+  lightDelay: 0.05
+  brightness: 0
+  increaseLantern: 0
+  decreaseLantern: 0
+--- !u!114 &808408922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 808408908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d119f7f676b2834a925fbd9191929b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkSpeed: 2
+  crouchSpeed: 1
+  sprintSpeed: 4
 --- !u!1 &821845531
 GameObject:
   m_ObjectHideFlags: 0
@@ -12214,6 +12213,7 @@ MonoBehaviour:
   flickerIntensity: 0.5
   volume: {fileID: 504830774}
   bloomOffset: -3
+  currentRange: 0
 --- !u!108 &856929950
 Light:
   m_ObjectHideFlags: 0
@@ -12414,7 +12414,6 @@ GameObject:
   - component: {fileID: 908241316}
   - component: {fileID: 908241319}
   - component: {fileID: 908241318}
-  - component: {fileID: 908241317}
   m_Layer: 0
   m_Name: LanternFlame
   m_TagString: Untagged
@@ -12437,24 +12436,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 108161763}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &908241317
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 908241315}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bf483435bfb9fc499e7dba932b1b90e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  adjustmentAmount: 0.0005
-  adjustmentMaximum: 0
-  maxParticleSize: 0.2
-  minParticleSize: 0.03
-  flameSizePercentage: 0
-  lanternFlame: {fileID: 908241319}
 --- !u!199 &908241318
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -32085,7 +32066,6 @@ GameObject:
   - component: {fileID: 1416503858}
   - component: {fileID: 1416503860}
   - component: {fileID: 1416503859}
-  - component: {fileID: 1416503861}
   m_Layer: 0
   m_Name: PlayerLantern
   m_TagString: Untagged
@@ -32163,18 +32143,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1416503857}
   m_Mesh: {fileID: 4300000, guid: 1d4861f05575b76479e3e93f4d1044ad, type: 3}
---- !u!114 &1416503861
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1416503857}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f0550f8c1112a641a48e105280b38ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1443328862
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38834,8 +38802,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2101978401}
   - component: {fileID: 2101978404}
-  - component: {fileID: 2101978403}
-  - component: {fileID: 2101978402}
   m_Layer: 0
   m_Name: Area Light Smooth
   m_TagString: Untagged
@@ -38858,66 +38824,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 108161763}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2101978402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2101978400}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e321b02a15ef7749814735274456d69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  adjustmentAmount: 0.01
-  bloomAdjustment: 0
-  adjustmentMaximum: 15
-  lanternSizePercentage: 0
-  emberController: {fileID: 908241317}
---- !u!114 &2101978403
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2101978400}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a14b4f9579c1594e90648a99d15e22e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  areaLight: {fileID: 2101978404}
-  flickerCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  minRange: 2
-  maxRange: 3
-  flickerDuration: 0.2
-  flickerIntensity: 0.5
-  volume: {fileID: 504830774}
-  bloomOffset: -3
 --- !u!108 &2101978404
 Light:
   m_ObjectHideFlags: 0
