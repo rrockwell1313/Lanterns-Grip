@@ -13,8 +13,15 @@ public class PlayerController : MonoBehaviour
     public float horizontalRotationSpeed = 150.0f;
     public float verticalRotationSpeed = 100f;
     public float walkSpeed, sprintSpeed, crouchSpeed;
-    bool sprintPressed, crouchPressed, interactPressed;
+    bool sprintPressed, crouchPressed;
     public bool isMoving, isSprinting; //accessible for other states?
+    
+    private InteractOnButtonPress interactScript;
+
+    private void Start()
+    {
+        interactScript = GetComponent<InteractOnButtonPress>();
+    }
 
     void Update()
     {
@@ -55,12 +62,9 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started)
         {
-            interactPressed = true;
+            interactScript.AttemptInteraction();
         }
-        else if (context.canceled)
-        {
-            interactPressed = false;
-        }
+ 
     }
 
 
