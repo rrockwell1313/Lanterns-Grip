@@ -25,6 +25,7 @@ public class LanternController : MonoBehaviour
     {
         if (context.started)
         {
+            Debug.Log("OnIncreaseLantern");
             increaseLanternPressed = true;
         }
         else if (context.canceled)
@@ -36,6 +37,8 @@ public class LanternController : MonoBehaviour
     {
         if (context.started)
         {
+            Debug.Log("OnDecreaseLantern");
+
             decreaseLanternPressed = true;
         }
         else if (context.canceled)
