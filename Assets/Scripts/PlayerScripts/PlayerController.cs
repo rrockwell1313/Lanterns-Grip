@@ -11,17 +11,20 @@ public class PlayerController : MonoBehaviour
     private Vector2 rotationInput;
     public float horizontalRotationSpeed = 150.0f;
     public float verticalRotationSpeed = 100f;
-    bool sprintPressed, crouchPressed; 
-    private InteractOnButtonPress interactScript;
+    bool sprintPressed, crouchPressed, jumpPressed; 
+    private PlayerInteract interactScript;
     private PlayerMovement movementScript;
     private LanternController lanternScript;
+    private PlayerJump jumpScript;
 
 
     private void Start()
     {
-        interactScript = GetComponent<InteractOnButtonPress>();
+        interactScript = GetComponent<PlayerInteract>();
         movementScript = GetComponent<PlayerMovement>();
         lanternScript  = GetComponent<LanternController>();
+        jumpScript = GetComponent<PlayerJump>();
+
     }
 
     void Update()
@@ -34,7 +37,13 @@ public class PlayerController : MonoBehaviour
         movementInput = context.ReadValue<Vector2>();
         movementScript.EnableMovement();
     }
-
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            jumpScript.CheckGround();
+        }
+    }
     public void OnRotation(InputAction.CallbackContext context)
     {
         rotationInput = context.ReadValue<Vector2>();

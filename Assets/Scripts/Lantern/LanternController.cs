@@ -16,7 +16,7 @@ public class LanternController : MonoBehaviour
     private Coroutine brightnessCoroutine;
     private bool isCoroutineRunning;
 
-    private ParticleSystem particleSystem;
+    private new ParticleSystem particleSystem;
     private Light areaLight;
 
     private void Start()
