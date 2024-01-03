@@ -302,12 +302,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeeafd181edfbc548baee5ade3c39a28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  test: {fileID: 176122, guid: e4782f39be6da1d439a255c25978725c, type: 3}
-  roomWidth: 3
-  roomHeight: 3
+  roomWidth: 1
+  roomHeight: 1
   roomDepth: 3
   prefabWidth: 5
   prefabHeight: 5
+  wallPrefabList:
+  - {fileID: 176122, guid: e4782f39be6da1d439a255c25978725c, type: 3}
+  - {fileID: 173052, guid: f87addfb27634c14baf7c1c48e67f5e2, type: 3}
+  - {fileID: 189982, guid: 13dfc664fc8adba468f52d6004590a30, type: 3}
+  floorPrefabList:
+  - {fileID: 123934, guid: 665853414452f864b94c603771858401, type: 3}
+  - {fileID: 139024, guid: 8c473c48083fffd499133e92dbcea536, type: 3}
+  - {fileID: 103136, guid: b834c4efb08256b4889bee1a75984cbc, type: 3}
+  - {fileID: 126278, guid: 90e8e68dce340d74d974711241b83339, type: 3}
+  - {fileID: 184820, guid: 69c90c2ae2618ef44a6e253d0244bc7a, type: 3}
+  - {fileID: 184820, guid: 69c90c2ae2618ef44a6e253d0244bc7a, type: 3}
+  - {fileID: 121644, guid: b855b7716f9347c4ab42166473f3b6b3, type: 3}
+  - {fileID: 137298, guid: b6b3e3a551c87364a93a462bb09790f5, type: 3}
 --- !u!1 &504830773
 GameObject:
   m_ObjectHideFlags: 0
@@ -15036,9 +15048,9 @@ Transform:
   m_GameObject: {fileID: 1948696827}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.7319796, y: 1, z: 3.9617481}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

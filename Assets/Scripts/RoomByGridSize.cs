@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class RoomByGridSize : MonoBehaviour
 {
-    public GameObject test;
-    private GameObject wallTilePrefab;
+    private GameObject wallTilePrefab, floorTilePrefab;
     private GameObject room;
     public int roomWidth, roomHeight, roomDepth;
     private float calcRoomWidth, calcRoomHeight, calcRoomDepth;
     public float prefabWidth, prefabHeight;
     public List<GameObject> wallPrefabList;
+    public List<GameObject> floorPrefabList;
+
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +31,8 @@ public class RoomByGridSize : MonoBehaviour
     {
         //choose a random prefab from a prebuilt list of prefabs
         wallTilePrefab = wallPrefabList[Random.Range(0, wallPrefabList.Count)];
+        floorTilePrefab = floorPrefabList[Random.Range(0, floorPrefabList.Count)];
+
     }
     void GenerateWalls()
     {
@@ -38,6 +41,7 @@ public class RoomByGridSize : MonoBehaviour
         SouthWall();
         EastWall();
         WestWall();
+        Floor();
     }
 
     void NorthWall()
@@ -107,6 +111,23 @@ public class RoomByGridSize : MonoBehaviour
             }
         }
     }
+    void Floor()
+    {
+        float xOffset = 0;
+        float yOffset = (calcRoomDepth / 2) * prefabHeight;
+
+        for (int x = 0; x < calcRoomWidth; x++)
+        {
+            for (int y = 0; y < calcRoomDepth; y++)
+            {
+                Vector3 position = new Vector3((x * prefabWidth) + xOffset, 0, (y * -prefabHeight) + yOffset);
+                GameObject currentPrefab = Instantiate(floorTilePrefab, position, Quaternion.Euler(0, 180, 0), room.transform); //spawns the prefab facing inward
+                currentPrefab.name = $"Prefab_Floor{x}_{y}";
+                floorTilePrefab = floorPrefabList[Random.Range(0, floorPrefabList.Count)];
+            }
+        }
+    }
+
     void AdjustRoomSize()
     {
         //for now, just rebuild the whole room by destroying and rebuilding. this is clunky, will adjust to a list and dictionary based method that only adds the next or removes the previous layers
