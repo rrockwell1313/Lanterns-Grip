@@ -10,7 +10,6 @@ public class LevelLayoutController : MonoBehaviour
 /// 3. after the layout is generated, use prefab room layouts to build the level
 /// </summary>
 
-
     // Start is called before the first frame update
     void Start()
     {

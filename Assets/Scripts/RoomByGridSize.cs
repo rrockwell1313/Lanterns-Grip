@@ -5,20 +5,22 @@ using UnityEngine;
 public class RoomByGridSize : MonoBehaviour
 {
     private GameObject wallTilePrefab, floorTilePrefab;
-    private GameObject room;
-    public int roomWidth, roomHeight, roomDepth;
+    public LevelGenerator levelGenerator;
+    [HideInInspector] public GameObject room;
+    public int roomWidth, roomHeight, roomDepth, doorways;
     private float calcRoomWidth, calcRoomHeight, calcRoomDepth;
     public float prefabWidth, prefabHeight;
     public List<GameObject> wallPrefabList;
     public List<GameObject> floorPrefabList;
 
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        CreateRoom();
+        if (!levelGenerator.isActiveAndEnabled)
+        {
+            CreateRoom();
+        }
     }
-    void CreateRoom()
+    public void CreateRoom()
     {
         calcRoomDepth = roomDepth;
         calcRoomHeight = roomHeight;
@@ -26,6 +28,7 @@ public class RoomByGridSize : MonoBehaviour
         room = new GameObject("Room"); //create a new game object called Room
         ChooseRandomPrefab();
         GenerateWalls();
+        DefineNewZero();
     }
     void ChooseRandomPrefab()
     {
@@ -128,11 +131,26 @@ public class RoomByGridSize : MonoBehaviour
         }
     }
 
+    void DefineNewZero()
+    {
+        //should define the new 0,0,0 of the whole room from the center to a pivot corner for grid use
+        // Move each child by the adjustment amount
+        foreach (Transform child in room.transform)
+        {
+            Vector3 bottomLeft = new Vector3(0, 0, -roomDepth * prefabHeight / 2);
+            Vector3 adjustment = room.transform.position - bottomLeft;
+            child.position += adjustment;
+        }
+    }
+
     void AdjustRoomSize()
     {
         //for now, just rebuild the whole room by destroying and rebuilding. this is clunky, will adjust to a list and dictionary based method that only adds the next or removes the previous layers
         Destroy(room);
-        CreateRoom();
+        if (!levelGenerator.isActiveAndEnabled)
+        {
+            CreateRoom();
+        }
     }
 
     // Update is called once per frame
@@ -141,7 +159,10 @@ public class RoomByGridSize : MonoBehaviour
         if (calcRoomDepth != roomDepth || calcRoomHeight != roomHeight || calcRoomWidth != roomWidth)
         {
             //one of the dimensions has changed in the inspector
-            AdjustRoomSize();
+            if (!levelGenerator.isActiveAndEnabled)
+            {
+                AdjustRoomSize();
+            }
         }
     }
 }
