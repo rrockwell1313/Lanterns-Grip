@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class LevelLayoutGenerator : MonoBehaviour
@@ -20,6 +21,9 @@ public class LevelLayoutGenerator : MonoBehaviour
 
     int nameX, nameY;
 
+    public bool recreateLayoutSwitch;
+    private bool switchPreviousValue;
+
 
     // Start is called before the first frame update
     void Start()
@@ -30,10 +34,42 @@ public class LevelLayoutGenerator : MonoBehaviour
         prefabHeight = roomByGridSize.prefabHeight;
         prefabWidth = roomByGridSize.prefabWidth;
         roomValuesMap = levelGenerator.roomValuesMap;
+        switchPreviousValue = recreateLayoutSwitch;
 
         CreateBase();
         CreateGrid();
 
+
+    }
+    void ResetLayout()
+    {
+        worldScale = levelGenerator.worldScale;
+        prefabHeight = roomByGridSize.prefabHeight;
+        prefabWidth = roomByGridSize.prefabWidth;
+        roomValuesMap = levelGenerator.roomValuesMap;
+        switchPreviousValue = recreateLayoutSwitch;
+        ResetRooms();
+        placeRooms = false;
+
+
+        Destroy(worldBase);
+        CreateBase();
+
+        roomMap.Clear();
+        roomMapKeys.Clear();
+
+        CreateGrid();
+    }
+
+    void ResetRooms()
+    {
+        foreach (GameObject room in levelGenerator.roomList)
+        {
+            Destroy(room); //destroy all rooms
+        }
+
+        levelGenerator.roomList.Clear(); //clear list for reuse
+        levelGenerator.Begin();
     }
 
     // Update is called once per frame
@@ -51,6 +87,13 @@ public class LevelLayoutGenerator : MonoBehaviour
             }
 ;
         }
+
+        if (recreateLayoutSwitch != switchPreviousValue)
+        {
+            recreateLayoutSwitch = switchPreviousValue;
+            ResetLayout();
+        }
+
     }
     void CreateBase()
     {
@@ -73,50 +116,76 @@ public class LevelLayoutGenerator : MonoBehaviour
     {
         for (int x = 0; x < (10 / prefabWidth * worldScale); x++) //10 is the plane scale, divided by single tilePrefabWidth and height
         {
-            for (int y = 0; y < (10 / 5 * prefabHeight); y++)
+            for (int y = 0; y < (10 / prefabHeight * worldScale); y++)
             {
                 roomMap.Add($"{x},{y}", null);
                 roomMapKeys.Add($"{x},{y}"); //also add them to the list
             }
         }
 
-        Debug.Log(roomMap.Count);
     }
     void PlaceRooms()
     {
         roomList = levelGenerator.roomList;
         int worldX = 0;
         int worldZ = 0;
+        string nextCoordKey;
+        string[] split;
+        int failCount = 0;
 
         //Vector3 roomLowerLeftZero = new Vector3(0, 0, 0);
         Vector3 newZeroPosition = Vector3.zero;
 
-        foreach (GameObject room in roomList)
+        for (int currentRoomNumber = 0; currentRoomNumber < roomList.Count;)
         {
+            GameObject room = roomList[currentRoomNumber];
             room.transform.SetParent(worldBase.transform, true); //makes the plane the parent, so it can all be moved
             room.transform.position = newZeroPosition + worldLowerLeftZero; //subtract lowerleftzero from any position to align properly to the grid
+            bool checkFailed = false;
+
+            //check values before placing
             for (int x = 0; x < (roomValuesMap[room.name + "width"]); x++)
             {
                 for (int y = 0; y < (roomValuesMap[room.name + "depth"]); y++)
                 {
                     string keyToRemove = $"{x + worldX},{y + worldZ}";
-                    roomMap[keyToRemove] = room;
-                    roomMapKeys.Remove(keyToRemove); //remove the key from the list as well
+                    if (!roomMapKeys.Contains(keyToRemove))
+                    {
+                        checkFailed = true;
+                        roomMapKeys.Remove(keyToRemove); //remove the key from the list as well
+                        failCount++;
+                        break;
+                    }
                 }
             }
 
+            if (!checkFailed)
+            {
+                //this commits the placement, needs a 'is this okay to place' check first
+                for (int x = 0; x < (roomValuesMap[room.name + "width"]); x++)
+                {
+                    for (int y = 0; y < (roomValuesMap[room.name + "depth"]); y++)
+                    {
+                        string keyToRemove = $"{x + worldX},{y + worldZ}";
+                        roomMap[keyToRemove] = room;
+                        roomMapKeys.Remove(keyToRemove); //remove the key from the list as well
+                    }
+                }
+                currentRoomNumber++;
+            }
+
             //pick a random start spot from the available remaining start spots
-            string nextCoordKey = roomMapKeys[Random.Range(0, roomMapKeys.Count)];
-            string[] split = nextCoordKey.Split(',');
+            nextCoordKey = roomMapKeys[Random.Range(0, roomMapKeys.Count)];
+            split = nextCoordKey.Split(',');
             worldX = int.Parse(split[0]);
             worldZ = int.Parse(split[1]);
             newZeroPosition = new Vector3(worldX * prefabWidth, 0, worldZ * prefabHeight);
-            Debug.Log(newZeroPosition);
+            
+            if (failCount > 9500)
+            {
+                Debug.Log("FAILED OUT MAH BOY");
+                return;
+            }
         }
-
-
-
-
-
     }
 }

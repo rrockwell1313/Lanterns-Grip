@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UIElements;
 
 public class LevelGenerator : MonoBehaviour
@@ -18,7 +19,10 @@ public class LevelGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        Begin();
+    }
+    public void Begin()
+    {
         if (usePrefabs)
         {
             for (int i = 0; i < roomCount; i++)
@@ -34,7 +38,6 @@ public class LevelGenerator : MonoBehaviour
                 GenerateRooms();
             }
         }
-
     }
 
 
