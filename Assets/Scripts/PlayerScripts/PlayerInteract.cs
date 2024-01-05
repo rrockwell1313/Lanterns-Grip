@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
+using Unity.UI;
 
-public class InteractOnButtonPress : MonoBehaviour
+public class PlayerInteract : MonoBehaviour
 {
     public Camera mainCamera;   // Reference to the main camera for raycasting
     public float rayLength = 1f; // Length of the raycast
@@ -18,7 +17,7 @@ public class InteractOnButtonPress : MonoBehaviour
         {
             Debug.Log(hit.collider.name);
             Debug.DrawLine(ray.origin, hit.point, Color.green);
-            IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+            InteractableObject interactable = hit.collider.GetComponent<InteractableObject>();
             if (interactable != null)
             {
                 interactable.OnRayCastHit();
@@ -29,6 +28,5 @@ public class InteractOnButtonPress : MonoBehaviour
             }
         }
     }
-
 
 }

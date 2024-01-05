@@ -1,4 +1,4 @@
-public interface IInteractable
+public interface InteractableObject
 {
     void Interact();
     void OnRayCastHit();  // New method

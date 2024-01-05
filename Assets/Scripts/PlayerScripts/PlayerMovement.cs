@@ -5,13 +5,22 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     PlayerController controller;
-    bool crouching, sprinting;
-    float moveSpeed, walkSpeed, crouchSpeed, sprintSpeed;
+    bool crouching, sprinting, moving;
+    public float walkSpeed, crouchSpeed, sprintSpeed;
+    float moveSpeed;
     Vector2 movementInput;
 
     private void Start()
     {
         controller = GetComponent<PlayerController>();
+    }
+
+    private void Update()
+    {
+        if (moving)
+        {
+            MovePlayer();
+        }
     }
 
     public void MovePlayer()
@@ -22,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (sprinting)
         {
-            moveSpeed += sprintSpeed;
+            moveSpeed = sprintSpeed;
         }
         else 
         {
@@ -32,6 +41,16 @@ public class PlayerMovement : MonoBehaviour
         movementInput = controller.movementInput;
         transform.Translate(new Vector3(movementInput.x, 0f, movementInput.y) * moveSpeed * Time.deltaTime); //actual code that does the movement
     }
+
+    //receive all of the below from the PlayerController (or elsewhere)
+    public void EnableMovement()
+    {
+        moving = true;
+    }
+    public void DisableMovement()
+    {
+        moving = false;
+    }
     public void EnableSprint()
     {
         sprinting = true;
@@ -40,5 +59,12 @@ public class PlayerMovement : MonoBehaviour
     {
         sprinting = false;
     }
-
+    public void EnableCrouch()
+    {
+        crouching = true;
+    }
+    public void DisableCrouch()
+    {
+        crouching = false;
+    }
 }

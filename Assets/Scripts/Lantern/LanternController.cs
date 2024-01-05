@@ -6,82 +6,119 @@ using UnityEngine.InputSystem;
 
 public class LanternController : MonoBehaviour
 {
-    public float adjustmentAmount;
-    public float bloomAdjustment;
-    public float adjustmentMaximum;
-    public float lanternSizePercentage;
-    public EmberController emberController;
+    [Tooltip("Amount of time in seconds between updates of the brightness amount.")]
+    public float adjustmentInterval;
+    public float maxFlameParticleSize, minFlameParticleSize;
+    public float flameParticleSizeDifferential;
+    public float maxLightRadius, minLightRadius, currentLightRadius, lightDelay;
+    [HideInInspector] public float  brightness; //percentage
+    [HideInInspector] public bool increaseLantern, decreaseLantern;
+    private Coroutine brightnessCoroutine;
+    private bool isCoroutineRunning;
 
-    private float rangeMinimum;
-    private float rangeMaximum;
-    private float maxRangeMinimum;
-    private float maxRangeMaximum;
-    private AreaLightRangeSmoothing areaLight;
+    private new ParticleSystem particleSystem;
+    private Light areaLight;
 
+    private void Start()
+    {
+        particleSystem = GetComponent<ParticleSystem>();
 
-    bool increaseLanternPressed, decreaseLanternPressed;
-
-    // Start is called before the first frame update
-    void Start()
-    {   
-
+        if (particleSystem == null) //using this can allow us to attach things to the objects that use them, eventually, though, if you have more than one of something, it could be an issue
+        {
+            particleSystem = GetComponentInChildren<ParticleSystem>();
+        }
+        areaLight = GetComponent<Light>();
         if (areaLight == null)
         {
-            areaLight = GetComponent<AreaLightRangeSmoothing>();
-            //Set the current range to return too as the minimum.
-            rangeMaximum = areaLight.maxRange;
-            rangeMinimum = areaLight.minRange;
-
-            maxRangeMaximum = areaLight.maxRange + adjustmentMaximum;
-            maxRangeMinimum = areaLight.minRange + adjustmentMaximum;
-            Debug.Log("areaLight is null");
+            areaLight = GetComponentInChildren<Light>();
         }
-        else if (areaLight != null)
+        brightness = 50f;
+        AdjustParticleSize();
+        AdjustLightRadius();
+    }
+
+    private void Update()
+    {
+        BrightnessCoroutine();
+
+    }
+
+    void BrightnessCoroutine()
+    {
+        if (!isCoroutineRunning)
         {
-            Debug.Log("areaLight is not null");
+            if (increaseLantern || decreaseLantern)
+            {
+                isCoroutineRunning = true;
+                brightnessCoroutine = StartCoroutine(AdjustBrightnessCoroutine());
+            }
+        }
+        else if (isCoroutineRunning)
+        {
+            if (!increaseLantern && !decreaseLantern)
+            {
+                isCoroutineRunning = false;
+                StopCoroutine(brightnessCoroutine);
+            }
         }
     }
-    // Update is called once per frame
-    void Update()
-    {
 
+    IEnumerator AdjustBrightnessCoroutine()
+    {
+        while (true) // Infinite loop
+        {
+            if (increaseLantern && brightness < 100)
+            {
+                brightness++;
+            }
+            else if (decreaseLantern && brightness > 0)
+            {
+                brightness--;
+            }
+
+            // Update particle size and light radius here
+
+            AdjustParticleSize();
+            AdjustLightRadius();
+            yield return new WaitForSeconds(adjustmentInterval); // Wait for specified interval
+
+        }
     }
 
-    public void AdjustLantern()
+    public void AdjustParticleSize()
     {
-        float flameSizePercentage = emberController.flameSizePercentage;
-        lanternSizePercentage = flameSizePercentage;
-        areaLight.maxRange = adjustmentMaximum * flameSizePercentage;
-        areaLight.minRange = (adjustmentMaximum * flameSizePercentage) - 1;
-        Debug.Log("areaLight.maxRange: " + areaLight.maxRange);
-    }
-    //public void AdjustLantern()
-    //{
-    //    if (increaseLanternPressed)
-    //    {
-    //        //Check if they are within the maxRange before applying more.
-    //        if (areaLight.maxRange - adjustmentAmount <= maxRangeMaximum)
-    //        {
-    //            areaLight.maxRange += adjustmentAmount;
-    //            areaLight.minRange += adjustmentAmount;
-    //        }else
-    //        {
-    //            Debug.Log("Lantern Max Range");
-    //            return;
-    //        }
+        //grow the particle system size = size based on brightness
+        float percentage = brightness / 100;                //return the brightness as a percentage
+        float newSize = maxFlameParticleSize * percentage;  //new size is set based on a percent of the max size of particle entered in the inspector
+        var mainModule = particleSystem.main;               //access the main module
 
-    //    }else if (decreaseLanternPressed)
-    //    {
-    //        if (areaLight.maxRange - adjustmentAmount >= rangeMaximum)
-    //        {
-    //            areaLight.maxRange -= adjustmentAmount;
-    //            areaLight.minRange -= adjustmentAmount;
-    //        }
-    //        else
-    //        {
-    //            Debug.Log("Lantern Minimum Range");
-    //            return;
-    //        }
-    //    }
-    //}
+        if (percentage == 0f)                               //if the percentage is 0, the light is off, so turn off the particle effect
+        {
+            particleSystem.Stop(true);
+        }
+        else if (percentage > 0f)
+        {
+            if (particleSystem.isStopped)                   //if the effect is off, turn it on, since the light is back on
+            {
+                particleSystem.Play(true);
+            }
+            mainModule.startSize = new ParticleSystem.MinMaxCurve(newSize - flameParticleSizeDifferential, newSize + flameParticleSizeDifferential); //using the differential to add visual flair
+        }
+    }
+    public void AdjustLightRadius()
+    {
+        //grow the light radius size = size based on brightness
+        float percentage = brightness / 100;                                //return the brightness as a percentage
+        float newSize = ((maxLightRadius-minLightRadius) * percentage);     //new size is set based on a percent of the max radius - min radius entered in the inspector
+        currentLightRadius = newSize + minLightRadius; //using lerp to keep the light behind the particles visually
+
+        if (percentage == 0f)                                               //if the percentage is 0, the light is off, so turn off the particle effect
+        {
+            areaLight.range = minLightRadius;
+        }
+        else if (percentage > 0f)
+        {
+            areaLight.range = currentLightRadius;
+        }
+    }
 }
