@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using Unity.VisualScripting;
 
 public class PlayerRotatesTowardCameraFace : MonoBehaviour
 {
-    public Camera mainCamera;
-    public CinemachineVirtualCamera cinemachineVirtualCamera;
-    public PlayerController playerController;
+    Camera mainCamera;
+    CinemachineVirtualCamera cinemachineVirtualCamera;
+    PlayerController playerController;
     [HideInInspector] public float hRotation, vRotation;
     float oldH, oldV;
     float rotationSpeed = 85f;
@@ -15,6 +16,9 @@ public class PlayerRotatesTowardCameraFace : MonoBehaviour
 
     private void Start()
     {
+        playerController = GetComponent<PlayerController>();
+        cinemachineVirtualCamera = GameObject.Find("Virtual Camera").GetComponent<CinemachineVirtualCamera>();
+        mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         UpdateRotationSpeed();
     }
     void LateUpdate()
