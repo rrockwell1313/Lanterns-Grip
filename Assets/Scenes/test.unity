@@ -252,6 +252,7 @@ GameObject:
   - component: {fileID: 458996818}
   - component: {fileID: 458996819}
   - component: {fileID: 458996820}
+  - component: {fileID: 458996821}
   m_Layer: 0
   m_Name: LevelDesigner
   m_TagString: Untagged
@@ -329,6 +330,19 @@ MonoBehaviour:
   - {fileID: 7360329287333376863, guid: 217dbae981b47a44bb90f868ec9e4757, type: 3}
   - {fileID: 4168450163937841276, guid: 39d6b3f6790afd64898d295df9566de6, type: 3}
   - {fileID: 5101970525170664381, guid: 1356553e367cc6c42a1dd6f85c427550, type: 3}
+  roomList: []
+--- !u!114 &458996821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458996816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bdf44e19d3643f49b2237b0e6de10ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &504830773
 GameObject:
   m_ObjectHideFlags: 0
