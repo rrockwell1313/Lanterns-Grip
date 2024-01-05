@@ -7,18 +7,17 @@ using UnityEngine.UIElements;
 public class LevelGenerator : MonoBehaviour
 {
     private RoomByGridSize roomByGridSize;
+    private int roomWidth, roomHeight, roomDepth, count;
     public int roomCount, worldScale, heightVariance, widthVariance, depthVariance;
-    private Plane worldBase;
     public bool usePrefabs;
     public List<GameObject> roomPrefabsList;
-    private List<GameObject> roomList = new List<GameObject>();
+    [HideInInspector] public List<GameObject> roomList = new List<GameObject>();
     GameObject roomPrefab;
-    Vector3 worldUpperLeftZero;
+    [HideInInspector] public Dictionary<string, int> roomValuesMap = new Dictionary<string, int>();
 
     // Start is called before the first frame update
     void Start()
     {
-        CreateBase();
 
         if (usePrefabs)
         {
@@ -36,32 +35,25 @@ public class LevelGenerator : MonoBehaviour
             }
         }
 
-        NameRooms();
-        PlaceRooms();
     }
-    void CreateBase()
-    {
-        //create the base of the world
-        GameObject worldBase = GameObject.CreatePrimitive(PrimitiveType.Plane);
-        worldBase.transform.localScale *= worldScale;
-        worldBase.transform.parent = this.transform;
 
-        float x, y, z;
-        x = worldBase.transform.localPosition.x - (10 * worldScale / 2); //plane scale is 10. always.
-        z = worldBase.transform.localPosition.z - (10 * worldScale / 2);
-        y = 0;
-        worldUpperLeftZero = new Vector3(x,y,z); //UPPERLEFTZERO SHOULD BE USED TO LINE UP ROOMS INSIDE THE PLANE
-    }
+
+
 
     void GenerateRooms()
     {
-        roomByGridSize.roomDepth = Random.Range(1, depthVariance + 1);
-        roomByGridSize.roomWidth = Random.Range(1, widthVariance + 1);
-        roomByGridSize.roomHeight = Random.Range(1, heightVariance +1);
+        roomWidth = Random.Range(2, widthVariance + 1);
+        roomHeight = Random.Range(2, heightVariance + 1);
+        roomDepth = Random.Range(2, depthVariance + 1);
+        roomByGridSize.roomDepth = roomDepth;
+        roomByGridSize.roomWidth = roomWidth;
+        roomByGridSize.roomHeight = roomHeight;
         roomByGridSize.CreateRoom();
         roomPrefab = roomByGridSize.room;
         roomPrefab.transform.parent = this.transform;
         roomList.Add(roomPrefab);
+        NameRooms();
+
     }
 
     void LoadInRooms()
@@ -74,17 +66,14 @@ public class LevelGenerator : MonoBehaviour
 
     void NameRooms()
     {
-        int count = 0;
-        foreach (GameObject currentRoom in roomList)
-        {
-            currentRoom.name = $"Room_{count}";
-            count++;
-        }
+        roomPrefab.name = $"Room{count}_{roomWidth}_{roomDepth}_{roomHeight}";
+
+        roomValuesMap.Add(roomPrefab.name + "width", roomWidth);
+        roomValuesMap.Add(roomPrefab.name + "depth", roomDepth);
+        roomValuesMap.Add(roomPrefab.name + "height", roomHeight);
+
+        count++;
     }
 
-    void PlaceRooms()
-    {
-        roomList[0].transform.position = worldUpperLeftZero;
-        //Debug.Log("Placing " + roomList[0].name + " in UpperLeft");
-    }
+
 }
