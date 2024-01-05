@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 public class CameraWobble : MonoBehaviour
 {
     public PlayerController controller;
-    public CinemachineVirtualCamera cinemachineVirtualCamera;
+    private CinemachineVirtualCamera cinemachineVirtualCamera;
     public float dutchMax, sprintDutchMax, oscillationSpeed, sprintOscillationSpeed;
     private float time = 0f;
     private Vector2 movementInput;
@@ -15,6 +15,7 @@ public class CameraWobble : MonoBehaviour
 
     void Update()
     {
+        cinemachineVirtualCamera = GameObject.Find("Virtual Camera").GetComponent<CinemachineVirtualCamera>();
         movementInput = controller.movementInput; //get this value from the controller script
 
         float inputMagnitude = movementInput.magnitude;

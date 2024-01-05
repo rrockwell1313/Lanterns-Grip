@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+
         interactScript = GetComponent<PlayerInteract>();
         movementScript = GetComponent<PlayerMovement>();
         lanternScript  = GetComponent<LanternController>();

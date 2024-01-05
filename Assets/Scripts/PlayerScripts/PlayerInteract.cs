@@ -5,11 +5,12 @@ using Unity.UI;
 
 public class PlayerInteract : MonoBehaviour
 {
-    public Camera mainCamera;   // Reference to the main camera for raycasting
+    Camera mainCamera;   // Reference to the main camera for raycasting
     public float rayLength = 1f; // Length of the raycast
 
     public void AttemptInteraction()
     {
+        mainCamera = Camera.main;
         Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
         RaycastHit hit;
 
