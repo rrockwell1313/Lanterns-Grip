@@ -87,36 +87,62 @@ public class LevelLayoutGenerator : MonoBehaviour
         roomList = levelGenerator.roomList;
         int worldX = 0;
         int worldZ = 0;
+        string nextCoordKey;
+        string[] split;
 
         //Vector3 roomLowerLeftZero = new Vector3(0, 0, 0);
         Vector3 newZeroPosition = Vector3.zero;
 
-        foreach (GameObject room in roomList)
+        for (int currentRoomNumber = 0; currentRoomNumber < roomList.Count - 1;)
         {
+            GameObject room = roomList[currentRoomNumber];
             room.transform.SetParent(worldBase.transform, true); //makes the plane the parent, so it can all be moved
             room.transform.position = newZeroPosition + worldLowerLeftZero; //subtract lowerleftzero from any position to align properly to the grid
+            bool checkFailed = false;
+
+            //check values before placing
             for (int x = 0; x < (roomValuesMap[room.name + "width"]); x++)
             {
                 for (int y = 0; y < (roomValuesMap[room.name + "depth"]); y++)
                 {
                     string keyToRemove = $"{x + worldX},{y + worldZ}";
-                    roomMap[keyToRemove] = room;
-                    roomMapKeys.Remove(keyToRemove); //remove the key from the list as well
+                    if (roomMapKeys.Contains(keyToRemove))
+                    {
+                        checkFailed = true;
+                    }
+
+                    if (checkFailed)
+                    {
+                        return;
+                    }
                 }
             }
 
-            //pick a random start spot from the available remaining start spots
-            string nextCoordKey = roomMapKeys[Random.Range(0, roomMapKeys.Count)];
-            string[] split = nextCoordKey.Split(',');
-            worldX = int.Parse(split[0]);
-            worldZ = int.Parse(split[1]);
-            newZeroPosition = new Vector3(worldX * prefabWidth, 0, worldZ * prefabHeight);
-            Debug.Log(newZeroPosition);
+            if (!checkFailed)
+            {
+                //this commits the placement, needs a 'is this okay to place' check first
+                for (int x = 0; x < (roomValuesMap[room.name + "width"]); x++)
+                {
+                    for (int y = 0; y < (roomValuesMap[room.name + "depth"]); y++)
+                    {
+                        string keyToRemove = $"{x + worldX},{y + worldZ}";
+                        roomMap[keyToRemove] = room;
+                        roomMapKeys.Remove(keyToRemove); //remove the key from the list as well
+                    }
+                }
+
+                //pick a random start spot from the available remaining start spots
+                nextCoordKey = roomMapKeys[Random.Range(0, roomMapKeys.Count)];
+                split = nextCoordKey.Split(',');
+                worldX = int.Parse(split[0]);
+                worldZ = int.Parse(split[1]);
+                newZeroPosition = new Vector3(worldX * prefabWidth, 0, worldZ * prefabHeight);
+                Debug.Log(newZeroPosition);
+            }
+            else if(checkFailed)
+            {
+
+            }
         }
-
-
-
-
-
     }
 }
