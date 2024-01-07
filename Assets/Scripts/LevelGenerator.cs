@@ -33,27 +33,9 @@ public class LevelGenerator : MonoBehaviour
         else
         {
             roomByGridSize = GetComponent<RoomByGridSize>();
-            roomByGridSize.CreateAlignments();
-
-            int i = 0;
-            int safety = 0;
-            while (i < roomCount)
+            for (int i = 0; i < roomCount; i++)
             {
-                safety++;
-                if (safety > 600)
-                {
-                    Debug.Log("it broke");
-                    return;
-                }
-                if (roomByGridSize.alignments.Count != 5)
-                {
-
-                    Debug.Log(roomByGridSize.alignments.Count);
-                    continue;
-                }
-
                 GenerateRooms();
-                i++;
             }
         }
     }
