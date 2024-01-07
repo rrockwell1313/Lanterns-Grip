@@ -2,6 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CenterPointAlignment
+{
+    Center,
+    BottomLeft,
+    BottomCenter,
+    BottomRight,
+    CenterLeft,
+    CenterRight,
+    TopLeft,
+    TopCenter,
+    TopRight
+}
+
 public class RoomByGridSize : MonoBehaviour
 {
     private GameObject wallTilePrefab, floorTilePrefab;
@@ -9,17 +22,44 @@ public class RoomByGridSize : MonoBehaviour
     [HideInInspector] public GameObject room;
     public int roomWidth, roomHeight, roomDepth, doorways;
     private float calcRoomWidth, calcRoomHeight, calcRoomDepth;
-    public float prefabWidth, prefabHeight;
+    public float prefabWidth, prefabHeight, prefabDepth;
+    public CenterPointAlignment centerPointAlignment;
+
+    private Dictionary<string, List<float>> alignmentOffsets;
+
+    [HideInInspector] public List<float> alignments = new List<float>();
     public List<GameObject> wallPrefabList;
     public List<GameObject> floorPrefabList;
 
-    private void Start()
+
+    public void CreateAlignments()
     {
+        calcRoomDepth = roomDepth;
+        calcRoomHeight = roomHeight;
+        calcRoomWidth = roomWidth;
+        alignmentOffsets = new Dictionary<string, List<float>>{
+        {"Center", new List<float>{ prefabWidth / 2 , (prefabWidth - (prefabWidth / 2)), -((calcRoomDepth * prefabWidth) / 2) + (prefabWidth / 2), -((calcRoomDepth * prefabWidth) / 2) + (prefabWidth / 2), (calcRoomDepth / 2) * prefabHeight - (prefabHeight / 2) } },
+        {"BottomRight", new List<float>{0f, prefabWidth, -((calcRoomDepth * prefabWidth) / 2) + prefabWidth, -((calcRoomDepth * prefabWidth) / 2) + prefabWidth, (calcRoomDepth / 2) * prefabHeight } },
+        {"BottomCenter",new List<float>{} },
+        {"BottomLeft",new List<float>{} },
+        {"CenterLeft", new List<float>{} },
+        {"CenterRight",new List<float>{} },
+        {"TopLeft", new List<float>{} },
+        {"TopCenter", new List<float>{} },
+        {"TopRight", new List<float>{} }
+    };
+        string chosenAlignment = centerPointAlignment.ToString();
+        alignments = alignmentOffsets[chosenAlignment];
         if (!levelGenerator.isActiveAndEnabled)
         {
             CreateRoom();
         }
+
     }
+
+
+
+
     public void CreateRoom()
     {
         calcRoomDepth = roomDepth;
@@ -27,6 +67,7 @@ public class RoomByGridSize : MonoBehaviour
         calcRoomWidth = roomWidth;
         room = new GameObject("Room"); //create a new game object called Room
         ChooseRandomPrefab();
+        CreateAlignments();
         GenerateWalls();
         DefineNewZero();
     }
@@ -49,7 +90,7 @@ public class RoomByGridSize : MonoBehaviour
 
     void NorthWall()
     {
-        float xOffset = 0;
+        float xOffset = alignments[0]; // 0=bottomRight, prefabWidth/2 = center
         float yOffset = 0;
 
         for (int x = 0; x < calcRoomWidth; x++)
@@ -67,7 +108,7 @@ public class RoomByGridSize : MonoBehaviour
     void SouthWall()
     {
         //for south wall, no rotation needed, xoffset is 1 width because pivot is bottom right
-        float xOffset = prefabWidth;
+        float xOffset = alignments[1]; //prefabWidth = bottomRight, (prefabWidth-(prefabWidth/2)) = center
         float yOffset = 0;
         for (int x = 0; x < calcRoomWidth; x++)
         {
@@ -84,7 +125,7 @@ public class RoomByGridSize : MonoBehaviour
     void EastWall()
     {
         //for east wall, rotation of -90 needed on the y, and the z is equal to the width instead of the x
-        float xOffset = -((calcRoomDepth * prefabWidth) / 2) + prefabWidth;
+        float xOffset = alignments[2]; //bottomRight = -((calcRoomDepth * prefabWidth) / 2) + prefabWidth; center = -((calcRoomDepth * prefabWidth) / 2) + (prefabWidth / 2)
         float yOffset = 0;
         for (int x = 0; x < calcRoomDepth; x++)
         {
@@ -101,7 +142,7 @@ public class RoomByGridSize : MonoBehaviour
     void WestWall()
     {
         //for west wall, rotation of +90 on the y axis, z is same
-        float xOffset = -((calcRoomDepth * prefabWidth) / 2) + prefabWidth;
+        float xOffset = alignments[3]; //bottomRight = -((calcRoomDepth * prefabWidth) / 2) + prefabWidth; center = -((calcRoomDepth * prefabWidth) / 2) + (prefabWidth / 2)
         float yOffset = 0;
         for (int x = 0; x < calcRoomDepth; x++)
         {
@@ -116,14 +157,14 @@ public class RoomByGridSize : MonoBehaviour
     }
     void Floor()
     {
-        float xOffset = 0;
-        float yOffset = (calcRoomDepth / 2) * prefabHeight;
+        float xOffset = alignments[0]; //bottomRight = 0 center = prefabWidth / 2
+        float yOffset = alignments[4]; //bottomRight = (calcRoomDepth / 2) * prefabHeight center = (calcRoomDepth / 2) * prefabHeight - (prefabHeight / 2)
 
         for (int x = 0; x < calcRoomWidth; x++)
         {
             for (int y = 0; y < calcRoomDepth; y++)
             {
-                Vector3 position = new Vector3((x * prefabWidth) + xOffset, 0, (y * -prefabHeight) + yOffset);
+                Vector3 position = new Vector3((x * prefabWidth) + xOffset, prefabDepth + .15f, (y * -prefabHeight) + yOffset);
                 GameObject currentPrefab = Instantiate(floorTilePrefab, position, Quaternion.Euler(0, 180, 0), room.transform); //spawns the prefab facing inward
                 currentPrefab.name = $"Prefab_Floor{x}_{y}";
                 floorTilePrefab = floorPrefabList[Random.Range(0, floorPrefabList.Count)];
