@@ -14,8 +14,8 @@ public class PlayerController : MonoBehaviour
     bool sprintPressed, crouchPressed, jumpPressed; 
     private PlayerInteract interactScript;
     private PlayerMovement movementScript;
-    private LanternController lanternScript;
     private PlayerJump jumpScript;
+    private PlayerCrouch crouchScript;
 
 
     private void Start()
@@ -23,8 +23,8 @@ public class PlayerController : MonoBehaviour
 
         interactScript = GetComponent<PlayerInteract>();
         movementScript = GetComponent<PlayerMovement>();
-        lanternScript  = GetComponent<LanternController>();
         jumpScript = GetComponent<PlayerJump>();
+        crouchScript = GetComponent<PlayerCrouch>();
 
     }
 
@@ -69,10 +69,12 @@ public class PlayerController : MonoBehaviour
             if (crouchPressed)
             {
                 movementScript.EnableCrouch();
+                crouchScript.Crouch();
             }
             else if (!crouchPressed)
             {
                 movementScript.DisableCrouch();
+                crouchScript.StandUp();
             }
         }
 
@@ -86,30 +88,4 @@ public class PlayerController : MonoBehaviour
         }
  
     }
-    public void OnLanternIncrease(InputAction.CallbackContext context)
-    // Called when the interact button is pressed
-    {
-        if (context.started)
-        {
-            lanternScript.increaseLantern = true;
-        }
-        else if (context.canceled)
-        {
-            lanternScript.increaseLantern = false;
-        }
-    }
-    public void OnLanternDecrease(InputAction.CallbackContext context)
-    // Called when the interact button is pressed
-    {
-        if (context.started)
-        {
-            lanternScript.decreaseLantern = true;
-        }
-        else if (context.canceled)
-        {
-            lanternScript.decreaseLantern = false;
-        }
-    }
-
-
 }
